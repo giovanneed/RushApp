@@ -27,6 +27,14 @@ class ShoppingCart {
            return sharedShoppingCart
     }
 
+    func priceTotal()->String{
+        var price = 0.0
+        for product in products {
+            price = price + product.price()
+        }
+        
+        return "CAD \(price)"
+    }
     func reset(){
         orderCompleted = true
         products = []

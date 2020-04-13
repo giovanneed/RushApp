@@ -12,6 +12,7 @@ class Product {
     
     
     var title = ""
+    var desc = ""
 
     var variant_id = 0
     var imageURL : URL?
@@ -30,9 +31,17 @@ class Product {
         return "CAD " + variants[0].price
     }
     
+    func price()->Double{
+        return Double(variants[0].price) as! Double
+    }
+    
     init(json: [String: AnyObject]) {
         if let title = json["title"] as? String {
             self.title = title
+        }
+        
+        if let desc = json["body_html"] as? String {
+            self.desc = desc
         }
         
         

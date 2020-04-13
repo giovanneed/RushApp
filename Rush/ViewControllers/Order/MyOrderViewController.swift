@@ -23,12 +23,14 @@ class MyOrderViewController : UIViewController {
         itemsTableView.delegate = self
         itemsTableView.dataSource = self
         
+        viewTotal.materialCardLayout()
+        
         fechTotal()
         
     }
     
     func fechTotal(){
-        totalLabel.text = "TOTAL"//ShoppingCart.shared().products.count
+        totalLabel.text = ShoppingCart.shared().priceTotal()
 
     }
     

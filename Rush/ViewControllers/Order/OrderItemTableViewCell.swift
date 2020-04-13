@@ -72,6 +72,9 @@ class OrderItemTableViewCell: UITableViewCell {
             
         }
         itemPrice.text = product.formattedPrice()
+        
+        itemExtras.text = product.desc
+
 
         
     }

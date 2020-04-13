@@ -22,26 +22,38 @@ class OrderStatusViewController: UIViewController {
     
     @IBOutlet weak var check2: UIImageView!
     
+
+    
     @IBOutlet weak var finishOrderButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         viewStatus.materialCardLayout()
+        self.updateOrder()
 
+     
+
+        
        
 
         // Do any additional setup after loading the view.
     }
     
+  
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        updateOrder()
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
+            self.updateOrder()
+        }
    
                    
         
     }
     
     func updateOrder(){
+        
+        print("check order")
         
         if MyOrder.shared().order.id == 0 {
             message.isHidden = false

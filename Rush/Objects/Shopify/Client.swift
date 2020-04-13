@@ -18,6 +18,11 @@ class Client {
     var firstName : String = "iOS"
     var lastName : String = "App 222"
 
+    var cardNumber: String = "1"
+    var cardName: String = "Bogus Gateway"
+    var cardExpDate: String = "06/21"
+    var cardSecCode: String = "123"
+
  
     
     init(){

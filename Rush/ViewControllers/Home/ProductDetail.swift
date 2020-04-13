@@ -35,12 +35,15 @@ class ProductViewController: UIViewController {
         }
         
         price.text = product.formattedPrice()
+        desc.text = product.desc
         
     }
     
     @IBAction func addToCart(_ sender: Any) {
         
         ShoppingCart.shared().products.append(product)
+        dismiss(animated: true, completion: nil)
+
     }
     
 }

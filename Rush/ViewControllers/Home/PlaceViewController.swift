@@ -62,6 +62,10 @@ class PlaceViewController : UIViewController {
         
         
         
+        
+     
+        
+        
         if segue.identifier == "SegueProductDetail" {
             if let productViewController = segue.destination as? ProductViewController {
                 if let product = sender as? Product {

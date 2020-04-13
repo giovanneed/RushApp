@@ -25,6 +25,23 @@ class TabBarViewController: UITabBarController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueCart" {
+            
+            if ShoppingCart.shared().products.count == 0 {
+                let alert = UIAlertController(title: "Sorry", message: "Your shopping cart is empty.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    
+                    
+                }))
+                self.present(alert, animated: true)
+                
+            } 
+            
+            
+        }
+    }
+    
 
     /*
     // MARK: - Navigation
