@@ -28,24 +28,29 @@ class MyOrderViewController : UIViewController {
     }
     
     func fechTotal(){
-        totalLabel.text = CurrentOrder.shared().total()
+        totalLabel.text = "TOTAL"//ShoppingCart.shared().products.count
 
     }
+    
+    @IBAction func payment(_ sender: Any) {
+        performSegue(withIdentifier: "SeguePayment", sender: nil)
+    }
+    
 }
 
 
 extension MyOrderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CurrentOrder.shared().order.items.count
+        return ShoppingCart.shared().products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell") as! OrderItemTableViewCell
-        let item = CurrentOrder.shared().order.items[indexPath.row]
+        let product = ShoppingCart.shared().products[indexPath.row]
         cell.delegate = self
-        cell.setup(item: item, indexPath: indexPath)
+        cell.setup(product: product, indexPath: indexPath)
         
-             return cell
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

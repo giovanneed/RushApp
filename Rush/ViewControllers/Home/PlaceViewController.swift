@@ -21,6 +21,9 @@ class PlaceViewController : UIViewController {
     
     @IBOutlet weak var viewPlace: UIView!
     
+    var products : [Product] = []
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +31,22 @@ class PlaceViewController : UIViewController {
         itemsCollectionView.dataSource = self
         
         viewPlace.materialCardLayout()
+        retriveProducts()
+    }
+    
+    func retriveProducts(){
+        Webservice.shared().getProducts { (products, error) in
+            if error != nil {
+                return
+            }
+            
+            self.products = products
+            
+            DispatchQueue.main.async {
+                self.itemsCollectionView.reloadData()
+            }
+            
+        }
     }
     
     @IBAction func showMyOrder(_ sender: Any) {
@@ -40,6 +59,18 @@ class PlaceViewController : UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
+        
+        if segue.identifier == "SegueProductDetail" {
+            if let productViewController = segue.destination as? ProductViewController {
+                if let product = sender as? Product {
+                    productViewController.product = product
+                    
+                }
+            }
+        }
+    
         if segue.identifier == "SegueItemDetail" {
             if let itemViewController = segue.destination as? ItemViewController {
                 if let item = sender as? Item {
@@ -55,15 +86,15 @@ class PlaceViewController : UIViewController {
 
 extension PlaceViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return place.items.count
+        return products.count//place.items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemCell", for: indexPath) as! ItemCollectionViewCell
         
-        let item = place.items[indexPath.row]
-        cell.setup(item: item)
+        let product = products[indexPath.row]
+        cell.setup(product: product)
         // Configure the cell
         return cell
     }
@@ -73,9 +104,9 @@ extension PlaceViewController: UICollectionViewDelegate, UICollectionViewDataSou
        }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = place.items[indexPath.row]
+        let product = products[indexPath.row]
 
-        performSegue(withIdentifier: "SegueItemDetail", sender: item)
+        performSegue(withIdentifier: "SegueProductDetail", sender: product)
     }
     
     

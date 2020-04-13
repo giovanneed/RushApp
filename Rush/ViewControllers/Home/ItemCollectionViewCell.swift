@@ -26,5 +26,17 @@ class ItemCollectionViewCell: UICollectionViewCell {
         mainImage.image = UIImage(named: item.mainImage)
     }
     
+    func setup(product: Product){
+        itemBackgroundView.materialCardLayout()
+        itemLabelPrice.text = product.formattedPrice()
+
+        itemLabelName.text = product.title
+        if let URL = product.imageURL {
+            mainImage.downloadImage(from: URL)
+
+        }
+        
+    }
+    
     
 }

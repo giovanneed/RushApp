@@ -55,7 +55,7 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
 
     }
     
-    func pickImageFromGallery(imagePicker: UIImagePickerController){
+    func pickImageFromGalleryDefault(imagePicker: UIImagePickerController){
            
            if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
 

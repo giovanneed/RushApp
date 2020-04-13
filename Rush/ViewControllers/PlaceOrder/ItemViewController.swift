@@ -10,6 +10,8 @@ import UIKit
 
 class ItemViewController: UIViewController {
     
+    var product = Product()
+    
     @IBOutlet weak var tableDetails: UITableView!
     
     

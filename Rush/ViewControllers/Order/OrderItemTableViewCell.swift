@@ -28,6 +28,8 @@ class OrderItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var itemTitle: UILabel!
     var item = Item()
+    var product = Product()
+
     var indexPath = IndexPath()
 
     override func awakeFromNib() {
@@ -54,6 +56,24 @@ class OrderItemTableViewCell: UITableViewCell {
         itemExtras.text = item.formattedExtras()
 
      
+    }
+    
+    
+    public func setup(product: Product, indexPath: IndexPath){
+        
+        viewBackground.materialCardLayout()
+        
+        self.product = product
+        self.indexPath = indexPath
+        
+        itemTitle.text = product.title
+        if let URL = product.imageURL {
+            itemImage.downloadImage(from: URL)
+            
+        }
+        itemPrice.text = product.formattedPrice()
+
+        
     }
 
     @IBAction func removeItem(_ sender: Any) {
