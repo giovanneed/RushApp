@@ -29,11 +29,18 @@ class ProductViewController: UIViewController {
     
     func loadProductInfo(){
         self.titleFull.text = product.title
-        if let URL = product.imageURL {
-            image.downloadImage(from: URL)
-            
+        
+        product.imageBuffed { (image) in
+            DispatchQueue.main.async {
+                self.image.image = image
+            }
         }
         
+        image.semiRounded()
+        image.contentMode = .scaleAspectFill
+        
+        
+                
         price.text = product.formattedPrice()
         desc.text = product.desc
         

@@ -42,8 +42,16 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController : LoginDelegate {
+    
+  
     func signInWithUsername(username: String, password: String) {
-        performSegue(withIdentifier: "SegueMain", sender: nil)
+        self.loading(show: true)
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { timer in
+            DispatchQueue.main.async() {
+                self.loading(show: false)
+                self.performSegue(withIdentifier: "SegueMain", sender: nil)
+            }
+        }
     }
     
     func signUp() {

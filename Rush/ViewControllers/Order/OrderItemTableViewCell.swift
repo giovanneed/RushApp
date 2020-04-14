@@ -10,7 +10,7 @@ import UIKit
 
 protocol OrderItemeCellDelegate: class {
   
-    func removeItem(_ item: Item, indexPath: IndexPath)
+    func removeProduct(_ product: Product, indexPath: IndexPath)
 }
 
 
@@ -67,10 +67,14 @@ class OrderItemTableViewCell: UITableViewCell {
         self.indexPath = indexPath
         
         itemTitle.text = product.title
-        if let URL = product.imageURL {
-            itemImage.downloadImage(from: URL)
-            
+        product.imageBuffed { (image) in
+            DispatchQueue.main.async {
+                self.itemImage.image = image
+            }
         }
+        
+        self.itemImage.semiRounded()
+      
         itemPrice.text = product.formattedPrice()
         
         itemExtras.text = product.desc
@@ -81,7 +85,7 @@ class OrderItemTableViewCell: UITableViewCell {
 
     @IBAction func removeItem(_ sender: Any) {
         
-        delegate?.removeItem(item, indexPath: indexPath)
+        delegate?.removeProduct(product, indexPath: indexPath)
         
         
     }

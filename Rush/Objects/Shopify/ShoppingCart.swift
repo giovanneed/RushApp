@@ -33,7 +33,7 @@ class ShoppingCart {
             price = price + product.price()
         }
         
-        return "CAD \(price)"
+        return String(format: "CAD $%.02f",price)
     }
     func reset(){
         orderCompleted = true
@@ -70,5 +70,16 @@ class ShoppingCart {
         return JSON
         
     }
+    
+    func remove(_ product:Product) {
+           
+           for (index, element) in products.enumerated() {
+               if product === element {
+                   products.remove(at: index)
+                   return
+               }
+           }
+          
+       }
    
 }

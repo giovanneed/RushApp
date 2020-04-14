@@ -22,6 +22,11 @@ class PlaceViewController : UIViewController {
     @IBOutlet weak var viewPlace: UIView!
     
     var products : [Product] = []
+    
+    var bufferCount = 0
+    
+    var timer  : Timer?
+
 
     
     override func viewDidLoad() {
@@ -31,21 +36,50 @@ class PlaceViewController : UIViewController {
         itemsCollectionView.dataSource = self
         
         viewPlace.materialCardLayout()
-        retriveProducts()
+        
+        guard timer == nil else { return }
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
+            self.retriveProducts()
+        }
+        
+        self.retriveProducts()
+
+     
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+          super.viewWillDisappear(true)
+          timer?.invalidate()
+           timer = nil
+      }
+       
+    
     func retriveProducts(){
+        
         Webservice.shared().getProducts { (products, error) in
             if error != nil {
                 return
             }
             
-            self.products = products
-            
-            DispatchQueue.main.async {
-                self.itemsCollectionView.reloadData()
+            if self.bufferCount == products.count{
+                
+            } else {
+                self.products = products
+                self.bufferCount = products.count
+                DispatchQueue.main.async {
+                              self.itemsCollectionView.reloadData()
+                          }
+                          
             }
             
+          
         }
     }
     

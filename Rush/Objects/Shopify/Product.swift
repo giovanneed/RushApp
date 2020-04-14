@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import UIKit
 class Product {
     
     
+    var image : UIImage?
     
     var title = ""
     var desc = ""
@@ -67,5 +69,48 @@ class Product {
         }
     }
     
-   
+    
+    func imageBuffed(callback: @escaping(_ image: UIImage) -> Void){
+        
+        if let img = self.image {
+            callback(img)
+            return
+        }
+        
+        if let URL = self.imageURL {
+            downloadImage(from: URL) { (image) in
+                if let img = image {
+                    self.image = img
+                    callback(img)
+                } else {
+                    callback(UIImage(named: "placeholder")!)
+
+                }
+
+            }
+        }
+    }
+    
 }
+
+
+extension Product {
+    
+    func downloadImage(from url: URL, callback: @escaping(_ image: UIImage?) -> Void) {
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+              callback( UIImage(data: data))
+        }
+    }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+           URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+}
+
+
+
+

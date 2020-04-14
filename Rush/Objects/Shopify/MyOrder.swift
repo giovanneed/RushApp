@@ -13,7 +13,8 @@ import Foundation
 class OrderShopify {
     var id : Int = 0//2036009369653
     var status = "Received"
-    
+    var name = ""
+
     init(){
         
     }
@@ -23,6 +24,10 @@ class OrderShopify {
             if let id = json["id"] as? Int {
                 self.id = id
             }
+        
+        if let name = json["name"] as? String {
+            self.name = name
+        }
         
        
         if let notes = json["note_attributes"] as? [AnyObject]{
@@ -65,7 +70,14 @@ class MyOrder {
         self.order.id = 0
     }
     
- 
+    func isEmpy()->Bool{
+        if self.order.id == 0 {return true}
+        return false
+    }
+    
+    func myOrderNumber()->String{
+        return "\(self.order.name)"
+    }
        
 
    

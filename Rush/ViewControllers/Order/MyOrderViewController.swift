@@ -64,10 +64,10 @@ extension MyOrderViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension MyOrderViewController: OrderItemeCellDelegate {
-    func removeItem(_ item: Item, indexPath: IndexPath) {
+    func removeProduct(_ product: Product, indexPath: IndexPath) {
 
-        CurrentOrder.shared().removeItem(item)
-        if  CurrentOrder.shared().order.items.count < 1 {
+        ShoppingCart.shared().remove(product)
+        if  ShoppingCart.shared().products.count < 1 {
             itemsTableView.reloadData()
             self.navigationController?.popViewController(animated: true)
             return

@@ -14,8 +14,11 @@ extension UIViewController {
     
     func loading(show: Bool){
         if show {
-            let loading = UIActivityIndicatorView()
-            loading.startAnimating()
+           // let loading = UIActivityIndicatorView()
+           // loading.startAnimating()
+            let loading = UIImageView(image: UIImage(named: "loading"))
+            loading.frame = CGRect(x: self.view.frame.width/2-40, y: self.view.frame.height/2-80, width: 80, height: 80)
+            loading.rotate()
             
             let view = UIView(frame: self.view.frame)
                    view.backgroundColor = .black
@@ -95,7 +98,7 @@ extension UIImageView {
     
     func downloadImage(from url: URL) {
         print("Download Started")
-        getData(from: url) { data, response, error in
+        getDataImage(from: url) { data, response, error in
             guard let data = data, error == nil else { return }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
@@ -106,8 +109,53 @@ extension UIImageView {
     }
     
     
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+    func getDataImage(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
             URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
      }
         
+}
+
+
+extension UIView {
+    
+    func downloadImage(from url: URL, callback: @escaping(_ image: UIImage?) -> Void) {
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+              callback( UIImage(data: data))
+        }
+    }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+           URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    
+    func animate(callback: @escaping(_ finish: Bool?) -> Void) {
+        
+        UIView.animate(withDuration: 1, animations: {
+            self.alpha = 0
+        }) { _ in
+            UIView.animate(withDuration: 1) {
+                callback(true)
+                self.alpha = 1
+            }
+            
+        }
+        
+    }
+    
+    func rotate() {
+           let rotation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.toValue = NSNumber(value: M_PI * 2)
+           rotation.duration = 1
+        rotation.isCumulative = true
+           rotation.repeatCount = FLT_MAX
+        self.layer.add(rotation, forKey: "rotationAnimation")
+       }
+    
+    
+    
 }

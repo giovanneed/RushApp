@@ -35,6 +35,11 @@ extension UIImageView {
         self.contentMode = .scaleAspectFill
 
     }
+    
+    func semiRounded() {
+           self.layer.cornerRadius = 5
+
+       }
 }
 
 

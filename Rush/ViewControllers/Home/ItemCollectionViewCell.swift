@@ -31,10 +31,23 @@ class ItemCollectionViewCell: UICollectionViewCell {
         itemLabelPrice.text = product.formattedPrice()
 
         itemLabelName.text = product.title
-        if let URL = product.imageURL {
-            mainImage.downloadImage(from: URL)
-
+        
+        if let img = product.image {
+            self.mainImage.image = img
+            self.mainImage.semiRounded()
+            
+            return
         }
+        
+        product.imageBuffed { (image) in
+            DispatchQueue.main.async {
+                self.mainImage.image = image
+            }
+        }
+        
+        self.mainImage.semiRounded()
+
+
         
     }
     

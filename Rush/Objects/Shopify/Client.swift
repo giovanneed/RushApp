@@ -15,8 +15,8 @@ class Client {
        }()
     
     
-    var firstName : String = "iOS"
-    var lastName : String = "App 222"
+    var firstName : String = "Ashley"
+    var lastName : String = "Graham"
 
     var cardNumber: String = "1"
     var cardName: String = "Bogus Gateway"
